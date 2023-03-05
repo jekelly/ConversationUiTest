@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConversationUiTest"
         mc:Ignorable="d"
+        DataContext="{DynamicResource VM}" 
         Title="AI conversations" Height="1200" Width="800">
     <Window.Resources>
         <local:WindowViewModel x:Key="VM"/>
@@ -66,10 +67,10 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid DataContext="{StaticResource VM}" TextElement.FontFamily="Segoe UI" TextElement.FontSize="14px" Background="{StaticResource HumanBackground}">
+    <Grid TextElement.FontFamily="Segoe UI" TextElement.FontSize="14px" Background="{StaticResource HumanBackground}">
         <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -77,7 +78,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.ColumnSpan="2" ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Conversations}">
+            <ItemsControl x:Name="Conversations" ItemsSource="{Binding Conversations}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:ConversationViewModel}">
                         <Border>
@@ -96,8 +97,8 @@
             </ItemsControl>
         </ScrollViewer>
         <Border Background="{StaticResource TextInputBackground}" Grid.Column="0" Grid.Row="1" CornerRadius="2" Margin="4,16,4,4">
-            <TextBox x:Name="PromptInput" Margin="2" Background="Transparent" BorderThickness="0" />
+            <TextBox x:Name="PromptInput" Text="{Binding NewQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="2" Background="Transparent" BorderThickness="0" />
         </Border>
-        <Button x:Name="PromptSubmit" Grid.Column="1" Grid.Row="1" Content="✈"/>
+        <Button x:Name="PromptSubmit" Grid.Column="1" Grid.Row="1" Content="✈" Command="{Binding RaiseQueryCommand}" />
     </Grid>
 </Window>
