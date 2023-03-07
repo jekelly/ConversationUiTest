@@ -12,6 +12,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows;
 
 namespace ConversationUiTest
 {
@@ -52,6 +53,23 @@ namespace ConversationUiTest
         public void AddConversation(string prompt, string response, bool split = false) => _conversations.AddOrUpdate(new Conversation(prompt, response, split));
     }
 
+    internal class QuickActionViewModel : ReactiveObject
+    {
+        private ObservableAsPropertyHelper<Visibility> _visibility;
+        public Visibility Visibility => _visibility.Value;
+
+        public string Name { get; }
+
+        public QuickActionViewModel(string match, string name, WindowViewModel parent)
+        {
+            _visibility = parent.WhenAnyValue(vm => vm.NewQuery)
+                .Select(query => query?.Contains(match) ?? false ? Visibility.Visible : Visibility.Collapsed)
+                .ToProperty(this, vm => vm.Visibility, Visibility.Collapsed);
+
+            this.Name = name;
+        }
+    }
+
     internal class WindowViewModel : ReactiveObject
     {
         private readonly ConversationService _cs = new ConversationService();
@@ -67,6 +85,8 @@ namespace ConversationUiTest
             get => _newQuery;
             set => this.RaiseAndSetIfChanged(ref _newQuery, value);
         }
+
+        public ObservableCollection<QuickActionViewModel> QuickActions { get; }
 
         public WindowViewModel()
         {
@@ -86,6 +106,12 @@ namespace ConversationUiTest
                 .Subscribe();
 
             var allDone = viewModelCache.Connect().MergeMany(vm => vm.WhenAnyValue(v => v.IsComplete));
+
+            this.QuickActions = new ObservableCollection<QuickActionViewModel>();
+            this.QuickActions.Add(new QuickActionViewModel("fix", "🛠", this));
+            this.QuickActions.Add(new QuickActionViewModel("repair", "🤕", this));
+            this.QuickActions.Add(new QuickActionViewModel("explain","👩‍🏫",   this));
+
 
             allDone.Subscribe(isComplete =>
             {
