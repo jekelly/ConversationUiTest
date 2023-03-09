@@ -8,14 +8,6 @@
         DataContext="{DynamicResource VM}" 
         Title="AI conversations" Height="1200" Width="800">
     <Window.Resources>
-        <local:WindowViewModel x:Key="VM"/>
-        <SolidColorBrush x:Key="HumanForeground">#ECECF1</SolidColorBrush>
-        <SolidColorBrush x:Key="HumanBackground">#343541</SolidColorBrush>
-        <SolidColorBrush x:Key="HumanIconBackground">#517dba</SolidColorBrush>
-        <SolidColorBrush x:Key="BotForeground">#ECECF1</SolidColorBrush>
-        <SolidColorBrush x:Key="BotBackground">#444654</SolidColorBrush>
-        <SolidColorBrush x:Key="BotIconBackground">#19c37d</SolidColorBrush>
-        <SolidColorBrush x:Key="TextInputBackground">#40414F</SolidColorBrush>
 
         <DataTemplate DataType="{x:Type local:PromptViewModel}">
             <Grid TextElement.Foreground="{StaticResource HumanForeground}">
@@ -86,11 +78,19 @@
             <ItemsControl x:Name="Conversations" ItemsSource="{Binding Conversations}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:ConversationViewModel}">
-                        <Border>
-                            <StackPanel Orientation="Vertical">
-                                <ContentControl x:Name="QueryControl" Content="{Binding Prompt}"/>
-                                <ContentControl x:Name="ResponseControl" Content="{Binding Response}"/>
-                            </StackPanel>
+                        <Border CornerRadius="8" Background="LightGray" Padding="4" BorderBrush="DarkGray" Margin="0,8,0,8">
+                            <ItemsControl x:Name="Exchanges" ItemsSource="{Binding Exchanges}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:ExchangeViewModel}">
+                                        <Border>
+                                            <StackPanel Orientation="Vertical">
+                                                <ContentControl x:Name="QueryControl" Content="{Binding Prompt}"/>
+                                                <ContentControl x:Name="ResponseControl" Content="{Binding Response}"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -101,31 +101,6 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </ScrollViewer>
-        <Border Background="{StaticResource TextInputBackground}" Grid.Column="0" Grid.Row="1" CornerRadius="2" Margin="4,16,4,4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ItemsControl x:Name="QuickActions" Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding QuickActions}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type local:QuickActionViewModel}">
-                            <Button Content="{Binding Name}" Visibility="{Binding Visibility}" Background="{StaticResource HumanBackground}" Foreground="{StaticResource HumanForeground}" Margin="4,0,0,0"  Width="36" Height="36"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBox x:Name="PromptInput" Grid.Row="1" Text="{Binding NewQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{StaticResource BotForeground}"  Margin="2" Background="Transparent" BorderThickness="0" />
-                <Button x:Name="PromptSubmit" Grid.Row="1" Grid.Column="1" Content="✈" Command="{Binding RaiseQueryCommand}" />
-            </Grid>
-        </Border>
+        <local:PromptControl Grid.Column="0" Grid.Row="1" Margin="4,16,4,4" />
     </Grid>
 </Window>

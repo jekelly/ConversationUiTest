@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace ConversationUiTest
 {
@@ -13,5 +14,15 @@ namespace ConversationUiTest
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            new TextWindow().Show();
+        }
+    }
+
+    public static class CompositionRoot
+    {
+        public static ConversationService ConversationService { get; } = new ConversationService();
     }
 }

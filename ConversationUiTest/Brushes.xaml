@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <SolidColorBrush x:Key="HumanForeground">#ECECF1</SolidColorBrush>
+        <SolidColorBrush x:Key="HumanBackground">#343541</SolidColorBrush>
+        <SolidColorBrush x:Key="HumanIconBackground">#517dba</SolidColorBrush>
+        <SolidColorBrush x:Key="BotForeground">#ECECF1</SolidColorBrush>
+        <SolidColorBrush x:Key="BotBackground">#444654</SolidColorBrush>
+        <SolidColorBrush x:Key="BotIconBackground">#19c37d</SolidColorBrush>
+        <SolidColorBrush x:Key="TextInputBackground">#40414F</SolidColorBrush>
+</ResourceDictionary>

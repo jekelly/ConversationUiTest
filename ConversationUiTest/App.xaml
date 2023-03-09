@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:ConversationUiTest"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Brushes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:WindowViewModel x:Key="VM"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

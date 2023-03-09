@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{27A63B87-8231-467E-AD68-E2ACBE8C347F}</ProjectGuid>
@@ -55,7 +56,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="WindowViewModel.cs" />
+    <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\ConversationContext.cs" />
+    <Compile Include="Models\Exchange.cs" />
+    <Compile Include="Models\ConversationService.cs" />
+    <Compile Include="Models\QuickActionProvider.cs" />
+    <Compile Include="PromptControl.xaml.cs">
+      <DependentUpon>PromptControl.xaml</DependentUpon>
+    </Compile>
+    <None Include="SampleCode\SearchController.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Compile Include="TextWindow.xaml.cs">
+      <DependentUpon>TextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ConversationViewModel.cs" />
+    <Compile Include="ViewModels\InlinePromptViewModel.cs" />
+    <Compile Include="ViewModels\PromptViewModel.cs" />
+    <Compile Include="ViewModels\QuickActionViewModel.cs" />
+    <Compile Include="ViewModels\ResponseViewModel.cs" />
+    <Compile Include="ViewModels\WindowViewModel.cs" />
+    <Page Include="Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,11 +88,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConversationViewModel.cs" />
+    <Compile Include="ViewModels\ExchangeViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PromptControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -99,6 +131,9 @@
   <ItemGroup>
     <PackageReference Include="ReactiveUI.WPF">
       <Version>18.4.22</Version>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Immutable">
+      <Version>7.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.Reactive">
       <Version>5.0.0</Version>

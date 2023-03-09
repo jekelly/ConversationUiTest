@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ConversationUiTest.PromptControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConversationUiTest"
+             mc:Ignorable="d">
+    <Border Background="{StaticResource TextInputBackground}" CornerRadius="2">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ItemsControl x:Name="QuickActions" Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding QuickActions}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:QuickActionViewModel}">
+                        <Button Content="{Binding Name}" Visibility="{Binding Visibility}" Background="{StaticResource HumanBackground}" Foreground="{StaticResource HumanForeground}" Margin="4,0,0,0"  Width="36" Height="36" Command="{Binding Command}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBox x:Name="PromptInput" Grid.Row="1" Text="{Binding NewQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{StaticResource BotForeground}"  Margin="2" Background="Transparent" BorderThickness="0" />
+            <Button x:Name="PromptSubmit" Grid.Row="1" Grid.Column="1" Content="✈" Command="{Binding RaiseQueryCommand}" />
+        </Grid>
+    </Border>
+</UserControl>
